@@ -38,8 +38,7 @@ describe "Merchants Endpoint" do
   it "can find a merchant" do
     merchants = create_list(:merchant, 2)
     target_merchant = create(:merchant, name: "Target")
-    merchant_params = {name: "Target"}
-
+    
     get "/api/v1/merchants/find?name=target"
 
     expect(response).to be_success
@@ -52,7 +51,7 @@ describe "Merchants Endpoint" do
   it "can find all merchants" do
     target_merchants = create_list(:merchant, 2, created_at: "2010-03-27T14:53:59.000Z")
     other_merchants = create_list(:merchant, 2)
-    
+
     get "/api/v1/merchants/find_all?created_at=2010-03-27T14:53:59.000Z"
 
     expect(response).to be_success
