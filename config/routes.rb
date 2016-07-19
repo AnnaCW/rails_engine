@@ -25,6 +25,9 @@ Rails.application.routes.draw do
           get 'find_all', to: 'customers_search#index'
           get 'random', to: 'customers_random#show'
         end
+        member do
+          get 'invoices', to: 'customers_invoices#show'
+        end
       end
 
       resources :invoices, only: [:index, :show] do
