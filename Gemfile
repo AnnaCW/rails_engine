@@ -8,6 +8,7 @@ gem 'pg', '~> 0.18'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 gem 'rspec-rails'
+gem "factory_girl_rails", "~> 4.0"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
@@ -34,6 +35,7 @@ end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'database_cleaner'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
