@@ -15,7 +15,9 @@ Rails.application.routes.draw do
           get 'find', to: 'transactions_search#show'
           get 'find_all', to: 'transactions_search#index'
           get 'random', to: 'transactions_random#show'
-
+        end
+        member do
+          get 'invoice', to: 'transactions_invoice#show'
         end
       end
 
