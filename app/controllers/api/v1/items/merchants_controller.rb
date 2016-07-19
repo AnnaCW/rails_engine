@@ -1,7 +1,7 @@
-class Api::V1::ItemsMerchantController < ApiBaseController
+class Api::V1::Items::MerchantController < ApiBaseController
   respond_to :json, :xml
 
-  def show
+  def index
     respond_with Item.find(params[:id]).merchant
   end
 end
