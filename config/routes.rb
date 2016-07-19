@@ -60,6 +60,10 @@ Rails.application.routes.draw do
           get 'find_all', to: 'invoice_items_search#index'
           get 'random', to: 'invoice_items_random#show'
         end
+        member do
+          get 'invoice', to: 'invoice_items_invoice#show'
+          get 'item', to: 'invoice_items_item#show'
+        end
       end
     end
   end
