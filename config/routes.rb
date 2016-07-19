@@ -30,6 +30,8 @@ Rails.application.routes.draw do
         end
         member do
           get 'transactions', to: 'invoices_transactions#index'
+          get 'invoice_items', to: 'invoices_invoice_items#index'
+          
         end
       end
 
