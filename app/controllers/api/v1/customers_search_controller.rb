@@ -1,6 +1,16 @@
 class Api::V1::CustomersSearchController < ApiBaseController
   respond_to :json, :xml
 
+  def index
+    if params[:first_name]
+      respond_with Customer.where("lower(first_name) = ?", params[:first_name].downcase)
+    elsif params[:last_name]
+      respond_with Customer.where("lower(last_name) = ?", params[:last_name].downcase)
+    else
+      respond_with Customer.where(customer_params)
+    end
+  end
+  
   def show
     if params[:first_name]
       respond_with Customer.where("lower(first_name) = ?", params[:first_name].downcase).first
@@ -11,15 +21,6 @@ class Api::V1::CustomersSearchController < ApiBaseController
     end
   end
 
-  def index
-    if params[:first_name]
-      respond_with Customer.where("lower(first_name) = ?", params[:first_name].downcase)
-    elsif params[:last_name]
-      respond_with Customer.where("lower(last_name) = ?", params[:last_name].downcase)
-    else
-      respond_with Customer.where(customer_params)
-    end
-  end
 
 private
 
