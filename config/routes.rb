@@ -29,6 +29,13 @@ Rails.application.routes.draw do
           get 'find_all', to: 'invoices_search#index'
         end
       end
+
+      resources :items, only: [:index, :show] do
+        collection do
+          get 'find', to: 'items_search#show'
+          get 'find_all', to: 'items_search#index'
+        end
+      end
     end
   end
 end
