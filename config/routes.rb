@@ -8,6 +8,10 @@ Rails.application.routes.draw do
           get 'find_all', to: 'merchants_search#index'
           get 'random', to: 'merchants_random#show'
         end
+        member do
+          get 'items', to: 'merchant_items#show'
+          get 'invoices', to: 'merchant_invoices#show'
+        end
       end
 
       resources :transactions, only: [:index, :show] do
