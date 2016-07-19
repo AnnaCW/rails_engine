@@ -1,4 +1,4 @@
-class Api::V1::MerchantsSearchController < ApiBaseController
+class Api::V1::Merchants::SearchController < ApiBaseController
   respond_to :json, :xml
 
   def index

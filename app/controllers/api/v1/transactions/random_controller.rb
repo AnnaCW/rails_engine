@@ -1,7 +1,7 @@
-class Api::V1::TransactionsRandomController < ApiBaseController
+class Api::V1::Transactions::RandomController < ApiBaseController
   respond_to :json, :xml
 
-  def show
+  def index
     respond_with Transaction.order("RANDOM()").first
   end
 end
