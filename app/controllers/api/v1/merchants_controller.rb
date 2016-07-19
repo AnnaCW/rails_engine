@@ -1,0 +1,13 @@
+class Api::V1::MerchantsController < ApiBaseController
+  # can also do api and v1 as modules
+  respond_to :json, :xml
+
+  def index
+    respond_with Merchant.all
+  end
+
+  def show
+    respond_with Merchant.find(params[:id])
+  end
+  
+end
