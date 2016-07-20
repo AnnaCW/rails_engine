@@ -10,6 +10,8 @@ describe "Customers Endpoint" do
     parsed_customers = JSON.parse(response.body)
 
     expect(parsed_customers.count).to eq(2)
+    expect(parsed_customers.first).to_not include("created_at")
+    expect(parsed_customers.first).to_not include("updated_at")
   end
 
   it "can return a single customer" do
@@ -21,6 +23,8 @@ describe "Customers Endpoint" do
     parsed_customer = JSON.parse(response.body)
 
     expect(parsed_customer["first_name"]).to eq(customer.first_name)
+    expect(parsed_customer).to_not include("created_at")
+    expect(parsed_customer).to_not include("updated_at")
   end
 
   it "can return a random customer" do
