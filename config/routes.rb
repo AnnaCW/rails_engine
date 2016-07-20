@@ -28,6 +28,7 @@ Rails.application.routes.draw do
         get 'find', to: 'customers/search#show', :on => :collection
         get 'find_all', to: 'customers/search#index', :on => :collection
         get 'random', to: 'customers/random#index', :on => :collection
+        get 'favorite_merchant', to: 'customers/favorite_merchant#show', :on => :member
       end
 
       resources :invoices, only: [:index, :show] do
