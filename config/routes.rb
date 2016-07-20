@@ -50,9 +50,6 @@ Rails.application.routes.draw do
       end
 
       resources :invoice_items, only: [:index, :show] do
-        # resources :invoices, only: [:index]
-        # resources :items, only: [:index]
-
         get 'find', to: 'invoice_items/search#show', :on => :collection
         get 'find_all', to: 'invoice_items/search#index', :on => :collection
         get 'random', to: 'invoice_items/random#index', :on => :collection
