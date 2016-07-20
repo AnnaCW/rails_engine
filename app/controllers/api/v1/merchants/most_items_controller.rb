@@ -1,7 +1,8 @@
 class Api::V1::Merchants::MostItemsController < ApiBaseController
   respond_to :json, :xml
 
-  def index
+  def index(num)
+    Merchant.most_items(num)
   end
 
 end
