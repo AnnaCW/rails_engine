@@ -6,4 +6,13 @@ class Item < ActiveRecord::Base
   validates_presence_of :description
   validates_presence_of :unit_price
   validates_presence_of :merchant
+
+  def self.most_items(num)
+    Item.joins(:invoice_items).group('items.id').order('sum(invoice_items.quantity) desc').limit(num)
+  end
+
+  # def best_day
+  #   invoice_items.group('invoice_items.id').order('sum(invoice_items.quantity)').limit(1)
+  # end
+
 end

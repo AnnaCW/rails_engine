@@ -30,4 +30,21 @@ RSpec.describe Merchant, type: :model do
     expect(merchant.revenue_by_date("2012-03-27T14:53:59.000Z")).to eq(8)
   end
 
+  it "returns x merchants ranked by number of items sold" do
+    merchant_1, merchant_2, merchant_3 = create_list(:merchant, 3)
+    invoice_1 = create(:invoice, merchant: merchant_1)
+    invoice_2 = create(:invoice, merchant: merchant_2)
+    invoice_3 = create(:invoice, merchant: merchant_3)
+    item_1a = create(:item, merchant: merchant_1)
+    item_1b = create(:item, merchant: merchant_1)
+    item_2 = create(:item, merchant: merchant_2)
+    item_3 = create(:item, merchant: merchant_3)
+    invoice_item_1a = create(:invoice_item, invoice: invoice_1, item: item_1a, quantity: 3)
+    invoice_item_1b = create(:invoice_item, invoice: invoice_1, item: item_1b, quantity: 4)
+    invoice_item_2 = create(:invoice_item, invoice: invoice_2, item: item_2, quantity: 1)
+    invoice_item_3 = create(:invoice_item, invoice: invoice_3, item: item_3, quantity: 8)
+
+    expect(Merchant.most_items(3)).to eq([merchant_3, merchant_1, merchant_2])
+  end
+
 end
