@@ -8,4 +8,10 @@ class Merchant < ActiveRecord::Base
   def customers_with_pending_invoices
     customers.where(invoices: {status: "pending"})
   end
+
+  def favorite_customer
+    customers.joins(:transactions).where(transactions: {result: "success"})
+             .group(:id)
+             .order("COUNT(transactions) DESC").first
+  end
 end

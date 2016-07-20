@@ -20,8 +20,8 @@ RSpec.describe Merchant, type: :model do
 
   it "Finds the favorite customer" do
     merchant = create(:merchant)
-    customer = create(:customer, :with_transactions, number_of: 3, merchant: merchant)
-    favorite_customer = create(:customer, :with_transactions, number_of: 5, merchant: merchant)
+    customer = create(:customer, :with_transactions, number_of: 3, merchant_id: merchant.id)
+    favorite_customer = create(:customer, :with_transactions, number_of: 5, merchant_id: merchant.id)
 
     result = merchant.favorite_customer
 

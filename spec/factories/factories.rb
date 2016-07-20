@@ -25,11 +25,11 @@ FactoryGirl.define do
   trait :with_transactions do
     transient do
       number_of 3
-      merchant (FactoryGirl.create :merchant)
+      merchant_id 1
     end
 
     after :create do |customer, evaluator|
-      invoice = FactoryGirl.create :invoice , :customer => customer, merchant: evaluator.merchant
+      invoice = FactoryGirl.create :invoice , :customer => customer, merchant_id: evaluator.merchant_id
       FactoryGirl.create_list :transaction, evaluator.number_of, :invoice => invoice
     end
   end
