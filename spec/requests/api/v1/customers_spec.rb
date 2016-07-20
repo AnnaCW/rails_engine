@@ -36,28 +36,28 @@ describe "Customers Endpoint" do
   end
 
   it "can find a customer" do
-    merchants = create_list(:customer, 2)
-    target_merchant = create(:customer, last_name: "TargetLast")
+    customers = create_list(:customer, 2)
+    target_customer = create(:customer, last_name: "lastname")
 
-    get "/api/v1/merchants/find?last_name=target_last"
+    get "/api/v1/customers/find?last_name=lastname"
 
     expect(response).to be_success
 
     parsed_customer = JSON.parse(response.body)
 
-    expect(parsed_customer["last_name"]).to eq("TargetLast")
+    expect(parsed_customer["last_name"]).to eq("lastname")
   end
 
   it "can find all customers" do
-    target_merchants = create_list(:customer, 2, created_at: "2010-03-27T14:53:59.000Z")
-    other_merchants = create_list(:merchant, 2)
+    target_customers = create_list(:customer, 2, created_at: "2010-03-27T14:53:59.000Z")
+    other_customers = create_list(:customer, 2)
 
-    get "/api/v1/merchants/find_all?created_at=2010-03-27T14:53:59.000Z"
+    get "/api/v1/customers/find_all?created_at=2010-03-27T14:53:59.000Z"
 
     expect(response).to be_success
 
-    parsed_merchants = JSON.parse(response.body)
+    parsed_customers = JSON.parse(response.body)
 
-    expect(parsed_merchants.count).to eq(2)
+    expect(parsed_customers.count).to eq(2)
   end
 end
