@@ -28,8 +28,6 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index, :show] do
-        resources :customers, only: [:index]
-        resources :invoice_items, only: [:index]
         resources :items, only: [:index]
         resources :transactions, only: [:index]
         resources :merchants, only: [:index]
@@ -37,24 +35,29 @@ Rails.application.routes.draw do
         get 'find', to: 'invoices/search#show', :on => :collection
         get 'find_all', to: 'invoices/search#index', :on => :collection
         get 'random', to: 'invoices/random#index', :on => :collection
+        get '/customer', to: 'invoices/customer#index', :on => :member
+        get '/merchant', to: 'invoices/merchant#index', :on => :member
+        get '/invoice_items', to: 'invoices/invoice_items#index', :on => :member
+
       end
 
       resources :items, only: [:index, :show] do
-        resources :invoice_items, only: [:index]
-        resources :merchants, only: [:index]
-
         get 'find', to: 'items/search#show', :on => :collection
         get 'find_all', to: 'items/search#index', :on => :collection
         get 'random', to: 'items/random#index', :on => :collection
+        get '/merchant', to: 'items/merchant#index', :on => :member
+        get '/invoice_items', to: 'items/invoice_items#index', :on => :member
       end
-      
+
       resources :invoice_items, only: [:index, :show] do
-        resources :invoices, only: [:index]
-        resources :items, only: [:index]
+        # resources :invoices, only: [:index]
+        # resources :items, only: [:index]
 
         get 'find', to: 'invoice_items/search#show', :on => :collection
         get 'find_all', to: 'invoice_items/search#index', :on => :collection
         get 'random', to: 'invoice_items/random#index', :on => :collection
+        get '/item', to: 'invoice_items/item#index', :on => :member
+        get '/invoice', to: 'invoice_items/invoice#index', :on => :member
       end
     end
   end
