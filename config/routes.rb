@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resources :transactions, only: [:index, :show] do
         resources :invoices, only: [:index]
 
+        get '/invoice', to: 'transactions/invoice#index', :on => :member
         get 'find', to: 'transactions/search#show', :on => :collection
         get 'find_all', to: 'transactions/search#index', :on => :collection
         get 'random', to: 'transactions/random#index', :on => :collection
