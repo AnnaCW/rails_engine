@@ -27,4 +27,12 @@ RSpec.describe Merchant, type: :model do
 
     expect(result).to eq favorite_customer
   end
+
+  it "Finds the total revenue" do
+    merchant = create(:merchant)
+    customer = create(:customer, :with_transactions, merchant_id: merchant.id)
+    result = Merchant.revenue_by_date("2012-03-27T14:53:59.000Z")
+
+    expect(result).to eq 5000
+  end
 end

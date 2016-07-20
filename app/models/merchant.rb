@@ -4,6 +4,8 @@ class Merchant < ActiveRecord::Base
   has_many :items
   has_many :invoices
   has_many :customers, through: :invoices
+  has_many :transactions, through: :invoices
+  has_many :invoice_items, through: :invoices
 
   def customers_with_pending_invoices
     customers.where(invoices: {status: "pending"})
@@ -13,5 +15,9 @@ class Merchant < ActiveRecord::Base
     customers.joins(:transactions).where(transactions: {result: "success"})
              .group(:id)
              .order("COUNT(transactions) DESC").first
+  end
+
+  def self.revenue_by_date(date)
+    Merchant.joins(:invoice_items).where(created_at: date).sum('quantity * unit_price')
   end
 end
