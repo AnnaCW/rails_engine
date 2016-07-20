@@ -17,4 +17,14 @@ RSpec.describe Merchant, type: :model do
     expect(result.count).to eq 3
     expect(result[0].invoices[0].status).to eq "pending"
   end
+
+  it "Finds the favorite customer" do
+    merchant = create(:merchant)
+    customer = create(:customer, :with_transactions, number_of: 3, merchant: merchant)
+    favorite_customer = create(:customer, :with_transactions, number_of: 5, merchant: merchant)
+
+    result = merchant.favorite_customer
+
+    expect(result).to eq favorite_customer
+  end
 end
