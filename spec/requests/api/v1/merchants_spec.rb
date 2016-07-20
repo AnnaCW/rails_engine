@@ -46,7 +46,7 @@ describe "Merchants Endpoint" do
     target_merchant = create(:merchant, name: "Target")
 
     get "/api/v1/merchants/find?name=target"
-
+    
     expect(response).to be_success
 
     parsed_merchant = JSON.parse(response.body)
