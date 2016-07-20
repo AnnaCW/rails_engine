@@ -2,23 +2,11 @@ class Api::V1::Merchants::SearchController < ApiBaseController
   respond_to :json, :xml
 
   def index
-    if params[:name]
-      respond_with Merchant.where("lower(name) = ?", params[:name].downcase)
-    elsif params[:id]
-      respond_with Merchant.find(params[:id])
-    else
-      respond_with Merchant.where(merchant_params)
-    end
+    respond_with Merchant.where(merchant_params)
   end
 
   def show
-    if params[:name]
-      respond_with Merchant.where("lower(name) = ?", params[:name].downcase).first
-    elsif params[:id]
-      respond_with Merchant.find(params[:id])
-    else
-      respond_with Merchant.find_by(merchant_params)
-    end
+    respond_with Merchant.find_by(merchant_params)
   end
 
 private
