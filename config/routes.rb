@@ -50,6 +50,8 @@ Rails.application.routes.draw do
         get 'random', to: 'items/random#index', :on => :collection
         get '/merchant', to: 'items/merchant#index', :on => :member
         get '/invoice_items', to: 'items/invoice_items#index', :on => :member
+        get 'most_items', to: 'items/most_items#index', :on => :collection
+        get 'best_day', to: 'items/best_day#show', :on => :member
       end
 
       resources :invoice_items, only: [:index, :show] do
