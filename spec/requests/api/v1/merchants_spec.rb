@@ -10,6 +10,8 @@ describe "Merchants Endpoint" do
     parsed_merchants = JSON.parse(response.body)
 
     expect(parsed_merchants.count).to eq(2)
+    expect(parsed_merchants.first).to_not include("created_at")
+    expect(parsed_merchants.first).to_not include("updated_at")
   end
 
   it "can return a single merchant" do
@@ -21,6 +23,8 @@ describe "Merchants Endpoint" do
     parsed_merchant = JSON.parse(response.body)
 
     expect(parsed_merchant["name"]).to eq(merchant.name)
+    expect(parsed_merchant).to_not include("created_at")
+    expect(parsed_merchant).to_not include("updated_at")
   end
 
   it "can return a random merchant" do
@@ -33,12 +37,14 @@ describe "Merchants Endpoint" do
 
     expect(parsed_merchant).to be_a(Hash)
     expect(parsed_merchant["name"]).to_not be_nil
+    expect(parsed_merchant).to_not include("created_at")
+    expect(parsed_merchant).to_not include("updated_at")
   end
 
   it "can find a merchant" do
     merchants = create_list(:merchant, 2)
     target_merchant = create(:merchant, name: "Target")
-    
+
     get "/api/v1/merchants/find?name=target"
 
     expect(response).to be_success
@@ -46,6 +52,8 @@ describe "Merchants Endpoint" do
     parsed_merchant = JSON.parse(response.body)
 
     expect(parsed_merchant["name"]).to eq("Target")
+    expect(parsed_merchant).to_not include("created_at")
+    expect(parsed_merchant).to_not include("updated_at")
   end
 
   it "can find all merchants" do
@@ -59,5 +67,7 @@ describe "Merchants Endpoint" do
     parsed_merchants = JSON.parse(response.body)
 
     expect(parsed_merchants.count).to eq(2)
+    expect(parsed_merchants.first).to_not include("created_at")
+    expect(parsed_merchants.first).to_not include("updated_at")
   end
 end

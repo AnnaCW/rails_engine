@@ -12,6 +12,8 @@ describe "Transactions Endpoint" do
     expect(parsed_transactions.count).to eq(2)
     expect(parsed_transactions).to be_an(Array)
     expect(parsed_transactions.first["result"]).to eq("success")
+    expect(parsed_transactions.first).to_not include("created_at")
+    expect(parsed_transactions.first).to_not include("updated_at")
   end
 
   it "can return a single transaction" do
@@ -23,6 +25,8 @@ describe "Transactions Endpoint" do
     parsed_transaction = JSON.parse(response.body)
 
     expect(parsed_transaction["id"]).to eq(transaction.id)
+    expect(parsed_transaction).to_not include("created_at")
+    expect(parsed_transaction).to_not include("updated_at")
   end
 
   it "can return a random transaction" do
@@ -35,6 +39,8 @@ describe "Transactions Endpoint" do
 
     expect(parsed_transaction).to be_a(Hash)
     expect(parsed_transaction["credit_card_number"]).to_not be_nil
+    expect(parsed_transaction).to_not include("created_at")
+    expect(parsed_transaction).to_not include("updated_at")
   end
 
   it "can find a transaction" do
@@ -47,6 +53,8 @@ describe "Transactions Endpoint" do
 
     expect(parsed_transaction).to be_a(Hash)
     expect(parsed_transaction["credit_card_number"]).to_not be_nil
+    expect(parsed_transaction).to_not include("created_at")
+    expect(parsed_transaction).to_not include("updated_at")
   end
 
   it "can find all transactions" do
@@ -60,5 +68,7 @@ describe "Transactions Endpoint" do
     parsed_transactions = JSON.parse(response.body)
     expect(parsed_transactions.count).to eq(2)
     expect(parsed_transactions.first["result"]).to eq("success")
+    expect(parsed_transactions.first).to_not include("created_at")
+    expect(parsed_transactions.first).to_not include("updated_at")
   end
 end

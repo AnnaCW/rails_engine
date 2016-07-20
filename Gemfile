@@ -13,6 +13,7 @@ gem "factory_girl_rails", "~> 4.0"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 gem 'responders'
+gem "active_model_serializers", github: "rails-api/active_model_serializers"
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
