@@ -55,9 +55,8 @@ describe "Invoices Endpoint" do
   it "can find all invoices" do
     target_invoices = create_list(:invoice, 2, created_at: "2010-03-29T14:53:59.000Z")
     other_invoices = create_list(:invoice, 2)
-    byebug
 
-    get "/api/v1/customers/find_all?created_at=2010-03-29T14:53:59.000Z"
+    get "/api/v1/invoices/find_all?created_at=2010-03-29T14:53:59.000Z"
 
     expect(response).to be_success
 
