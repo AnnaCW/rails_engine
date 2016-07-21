@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         get 'date', to: 'merchants/revenue_date#show', :on => :member
         get 'most_items', to: 'merchants/most_items#index', :on => :collection
         get ':id/customers_with_pending_invoices', to: 'merchants/pending_invoices#index', :on => :collection
+        get ':id/favorite_customer', to: 'merchants/favorite_customer#index', :on => :collection
       end
 
       resources :transactions, only: [:index, :show] do
