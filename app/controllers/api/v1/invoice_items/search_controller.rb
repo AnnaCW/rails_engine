@@ -1,6 +1,4 @@
 class Api::V1::InvoiceItems::SearchController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     if params[:unit_price]
       respond_with InvoiceItem.where(unit_price: (params[:unit_price].to_f * 100).round)

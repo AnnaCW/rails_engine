@@ -1,6 +1,4 @@
 class Api::V1::TransactionsController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     respond_with Transaction.all
   end
