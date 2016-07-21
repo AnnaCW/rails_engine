@@ -87,6 +87,9 @@ RSpec.describe Merchant, type: :model do
     invoice_1 = create(:invoice, merchant: merchant_1)
     invoice_2 = create(:invoice, merchant: merchant_2)
     invoice_3 = create(:invoice, merchant: merchant_3)
+    invoice_1.transactions << create(:transaction)
+    invoice_2.transactions << create(:transaction)
+    invoice_3.transactions << create(:transaction)
     item_1a = create(:item, merchant: merchant_1)
     item_1b = create(:item, merchant: merchant_1)
     item_2 = create(:item, merchant: merchant_2)
@@ -96,6 +99,7 @@ RSpec.describe Merchant, type: :model do
     invoice_item_2 = create(:invoice_item, invoice: invoice_2, item: item_2, quantity: 1)
     invoice_item_3 = create(:invoice_item, invoice: invoice_3, item: item_3, quantity: 8)
 
+    expect(merchant_3.merchant_items).to eq(8)
     expect(Merchant.most_items(3)).to eq([merchant_3, merchant_1, merchant_2])
   end
 end

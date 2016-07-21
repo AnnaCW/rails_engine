@@ -39,6 +39,8 @@ describe "Merchants BI Endpoints" do
       item_2 = create(:item, merchant: merchant_2)
       invoice_1 = create(:invoice, merchant: merchant_1)
       invoice_2 = create(:invoice, merchant: merchant_2)
+      invoice_1.transactions << create(:transaction)
+      invoice_2.transactions << create(:transaction)
       invoice_item_1 = create(:invoice_item, invoice: invoice_1, item: item_1, quantity: 3)
       invoice_item_2 = create(:invoice_item, invoice: invoice_2, item: item_2, quantity: 1)
 

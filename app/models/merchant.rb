@@ -30,10 +30,14 @@ class Merchant < ActiveRecord::Base
             .limit(num_results)
   end
 
+  def merchant_items
+    invoices.joins(:transactions, :invoice_items)
+            .where(transactions: {result: "success"})
+            .sum('quantity')
+  end
+
   def self.most_items(num)
-    Merchant.joins(:invoice_items).group('merchants.id')
-            .order('sum(invoice_items.quantity) desc')
-            .limit(num)
+    Merchant.all.sort_by { |m| m.merchant_items }.reverse.take(num.to_i)
   end
 
   def revenue
