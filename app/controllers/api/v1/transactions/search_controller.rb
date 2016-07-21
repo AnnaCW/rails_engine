@@ -1,6 +1,4 @@
 class Api::V1::Transactions::SearchController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     respond_with Transaction.where(transaction_params)
   end

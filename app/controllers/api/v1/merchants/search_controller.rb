@@ -1,6 +1,4 @@
 class Api::V1::Merchants::SearchController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     respond_with Merchant.where(merchant_params)
   end

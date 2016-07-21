@@ -1,6 +1,4 @@
 class Api::V1::Customers::SearchController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     respond_with Customer.where(customer_params)
   end

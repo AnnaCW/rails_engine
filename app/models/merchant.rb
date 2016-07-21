@@ -6,7 +6,11 @@ class Merchant < ActiveRecord::Base
   has_many :invoice_items, through: :invoices
 
   def customers_with_pending_invoices
-    customers.where(invoices: {status: "pending"})
+    Customer.joins(merchants: :invoices)
+            .where(merchants: {id: self.id})
+            .merge(Invoice.joins(:transactions)
+            .where(transactions: { result: 'failed' }))
+            .distinct
   end
 
   def favorite_customer
@@ -16,7 +20,7 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.revenue_by_date(date)
-    Merchant.joins(:invoice_items).where(created_at: date)
+    Invoice.where(created_at: date).joins(:invoice_items)
             .sum('quantity * unit_price')
   end
 
@@ -27,14 +31,20 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(num)
-    Merchant.joins(:invoice_items).group('merchants.id').order('sum(invoice_items.quantity) desc').limit(num)
+    Merchant.joins(:invoice_items).group('merchants.id')
+            .order('sum(invoice_items.quantity) desc')
+            .limit(num)
   end
 
   def revenue
-    invoices.joins(:invoice_items).sum('quantity * unit_price')
+    invoices.joins(:transactions, :invoice_items)
+            .where(transactions: {result: "success"})
+            .sum('quantity * unit_price')
   end
 
   def revenue_by_date(invoice_date)
-    invoices.joins(:invoice_items).where(created_at: invoice_date).sum('quantity * unit_price')
+    invoices.joins(:transactions, :invoice_items)
+            .where(created_at: invoice_date, transactions: {result: "success"})
+            .sum('quantity * unit_price')
   end
 end

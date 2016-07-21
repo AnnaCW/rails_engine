@@ -7,8 +7,11 @@ class Item < ActiveRecord::Base
     Item.joins(:invoice_items).group('items.id').order('sum(invoice_items.quantity) desc').limit(num)
   end
 
-  # def best_day
-  #   invoice_items.group('invoice_items.id').order('sum(invoice_items.quantity)').limit(1)
-  # end
+  def best_day
+    invoice_items.joins(:invoice)
+                 .group("invoices.created_at")
+                 .order("sum_invoice_items_quantity DESC, invoices_created_at DESC")
+                 .sum("invoice_items.quantity").first.first
+  end
 
 end

@@ -6,14 +6,16 @@ RSpec.describe Merchant, type: :model do
 
   it "Finds customers with pending invoices" do
     merchant = create(:merchant)
-    customer = create(:customer)
-    create_list(:invoice, 3, customer: customer, merchant: merchant,
-                status: "pending")
+    customer_1 = create(:customer)
+    customer_2 = create(:customer)
+    invoice_1 = create(:invoice, customer: customer_1, merchant: merchant)
+    invoice_2 = create(:invoice, customer: customer_2, merchant: merchant)
+    invoice_1.transactions << create(:transaction, result: "failed")
+    invoice_2.transactions << create(:transaction, result: "failed")
 
     result = merchant.customers_with_pending_invoices
 
-    expect(result.count).to eq 3
-    expect(result[0].invoices[0].status).to eq "pending"
+    expect(result.count).to eq 2
   end
 
   it "Finds the favorite customer" do
@@ -55,6 +57,8 @@ RSpec.describe Merchant, type: :model do
   it "returns total revenue for merchant" do
     merchant = create(:merchant)
     invoice_1, invoice_2 = create_list(:invoice, 2, merchant: merchant)
+    invoice_1.transactions << create(:transaction)
+    invoice_2.transactions << create(:transaction)
     invoice_item_1 = create(:invoice_item, invoice: invoice_1, quantity: 2, unit_price: 3)
     invoice_item_2 = create(:invoice_item, invoice: invoice_2, quantity: 1, unit_price: 2)
 
@@ -68,6 +72,8 @@ RSpec.describe Merchant, type: :model do
   it "returns revenue for merchant for given date" do
     merchant = create(:merchant)
     invoice_1, invoice_2 = create_list(:invoice, 2, merchant: merchant, created_at: "2012-03-27T14:53:59.000Z")
+    invoice_1.transactions << create(:transaction)
+    invoice_2.transactions << create(:transaction)
     invoice_item_1 = create(:invoice_item, invoice: invoice_1, quantity: 2, unit_price: 3)
     invoice_item_2 = create(:invoice_item, invoice: invoice_2, quantity: 1, unit_price: 2)
     invoice_3 = create(:invoice, merchant: merchant, created_at: "2015-03-27T14:53:59.000Z")
