@@ -8,9 +8,9 @@ class ItemSerializer < ActiveModel::Serializer
 
   def format_price(string)
     if string.length == 2
-      string += "00"
+      string = "00" + string
     elsif string.length == 1
-      string += "000"
+      string = "000" + string
     end
     string
   end
