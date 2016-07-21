@@ -6,7 +6,7 @@ class Api::V1::Items::SearchController < ApiBaseController
   end
 
   def show
-    respond_with Item.find_by(item_params)
+    respond_with Item.where(item_params).first
   end
 
 private
