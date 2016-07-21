@@ -28,7 +28,7 @@ RSpec.describe Merchant, type: :model do
     expect(result).to eq favorite_customer
   end
 
-  it "Finds the total revenue" do
+  it "Finds the total revenue for a date" do
     merchant_1 = create(:merchant)
     merchant_2 = create(:merchant)
     create(:customer, :with_transactions, merchant_id: merchant_1.id)
@@ -36,5 +36,21 @@ RSpec.describe Merchant, type: :model do
     result = Merchant.revenue_by_date("2012-03-27T14:53:59.000Z")
 
     expect(result).to eq 10000
+  end
+
+  it "Finds the most revenue, with x number of given results" do
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+    customer_1 = create(:customer, :with_transactions, merchant_id: merchant_1.id)
+    customer_2 = create(:customer, :with_transactions, merchant_id: merchant_2.id)
+    extra_invoice = create(:invoice, merchant: merchant_1)
+    extra_invoice.invoice_items << create(:invoice_item)
+    customer_2.invoices << extra_invoice
+
+    one_result = Merchant.most_revenue(1)
+    multiple_results = Merchant.most_revenue(2)
+
+    expect(one_result).to eq [merchant_1]
+    expect(multiple_results).to eq [merchant_1, merchant_2]
   end
 end
