@@ -16,6 +16,24 @@ FactoryGirl.define do
     updated_at "2012-03-27T14:53:59.000Z"
   end
 
+  trait :with_invoices do
+    after :create do |customer|
+      FactoryGirl.create_list :invoice, 3, :customer => customer
+    end
+  end
+
+  trait :with_transactions do
+    transient do
+      number_of 3
+      merchant_id 1
+    end
+
+    after :create do |customer, evaluator|
+      invoice = FactoryGirl.create :invoice , :customer => customer, merchant_id: evaluator.merchant_id
+      FactoryGirl.create_list :transaction, evaluator.number_of, :invoice => invoice
+    end
+  end
+
   sequence :first_name do |n|
     "FirstName#{n}"
   end
