@@ -1,79 +1,71 @@
 Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
-
       resources :merchants, only: [:index, :show] do
-        collection do
-          get 'find', to: 'merchants_search#show'
-          get 'find_all', to: 'merchants_search#index'
-          get 'random', to: 'merchants_random#show'
-        end
-        member do
-          get 'items', to: 'merchant_items#show'
-          get 'invoices', to: 'merchant_invoices#show'
-        end
+
+        get 'find', to: 'merchants/search#show', :on => :collection
+        get 'find_all', to: 'merchants/search#index', :on => :collection
+        get 'random', to: 'merchants/random#index', :on => :collection
+        get ':id/revenue', to: 'merchants/revenue#show', :on => :collection
+        get 'revenue', to: 'merchants/revenue#index', :on => :collection
+        get 'date', to: 'merchants/revenue_date#show', :on => :member
+        get 'most_items', to: 'merchants/most_items#index', :on => :collection
+        get 'most_revenue', to: 'merchants/most_revenue#index', :on => :collection
+        get '/invoices', to: 'merchants/invoices#index', :on => :member
+        get '/items', to: 'merchants/items#index', :on => :member
+
+        get ':id/customers_with_pending_invoices', to: 'merchants/pending_invoices#index', :on => :collection
+        get ':id/favorite_customer', to: 'merchants/favorite_customer#index', :on => :collection
       end
 
       resources :transactions, only: [:index, :show] do
-        collection do
-          get 'find', to: 'transactions_search#show'
-          get 'find_all', to: 'transactions_search#index'
-          get 'random', to: 'transactions_random#show'
-        end
-        member do
-          get 'invoice', to: 'transactions_invoice#show'
-        end
+        resources :invoices, only: [:index]
+        get '/invoice', to: 'transactions/invoice#index', :on => :member
+        get 'find', to: 'transactions/search#show', :on => :collection
+        get 'find_all', to: 'transactions/search#index', :on => :collection
+        get 'random', to: 'transactions/random#index', :on => :collection
       end
 
       resources :customers, only: [:index, :show] do
-        collection do
-          get 'find', to: 'customers_search#show'
-          get 'find_all', to: 'customers_search#index'
-          get 'random', to: 'customers_random#show'
-        end
-        member do
-          get 'invoices', to: 'customers_invoices#show'
-          get 'transactions', to: 'customers_transactions#show'
-        end
+        get 'find', to: 'customers/search#show', :on => :collection
+        get 'find_all', to: 'customers/search#index', :on => :collection
+        get 'random', to: 'customers/random#index', :on => :collection
+        get 'favorite_merchant', to: 'customers/favorite_merchant#show', :on => :member
+        get '/invoices', to: 'customers/invoices#index', :on => :member
+        get '/transactions', to: 'customers/transactions#index', :on => :member
+
       end
 
       resources :invoices, only: [:index, :show] do
-        collection do
-          get 'find', to: 'invoices_search#show'
-          get 'find_all', to: 'invoices_search#index'
-          get 'random', to: 'invoices_random#show'
-        end
-        member do
-          get 'transactions', to: 'invoices_transactions#index'
-          get 'invoice_items', to: 'invoices_invoice_items#index'
-          get 'items', to: 'invoices_items#index'
-          get 'customer', to: 'invoices_customer#show'
-          get 'merchant', to: 'invoices_merchant#show'
-        end
+        resources :merchants, only: [:index]
+
+        get 'find', to: 'invoices/search#show', :on => :collection
+        get 'find_all', to: 'invoices/search#index', :on => :collection
+        get 'random', to: 'invoices/random#index', :on => :collection
+        get '/customer', to: 'invoices/customer#index', :on => :member
+        get '/merchant', to: 'invoices/merchant#index', :on => :member
+        get '/invoice_items', to: 'invoices/invoice_items#index', :on => :member
+        get '/transactions', to: 'invoices/transactions#index', :on => :member
+        get '/items', to: 'invoices/items#index', :on => :member
+
       end
 
       resources :items, only: [:index, :show] do
-        collection do
-          get 'find', to: 'items_search#show'
-          get 'find_all', to: 'items_search#index'
-          get 'random', to: 'items_random#show'
-        end
-        member do
-          get 'invoice_items', to: 'items_invoice_items#index'
-          get 'merchant', to: 'items_merchant#show'
-        end
+        get 'find', to: 'items/search#show', :on => :collection
+        get 'find_all', to: 'items/search#index', :on => :collection
+        get 'random', to: 'items/random#index', :on => :collection
+        get '/merchant', to: 'items/merchant#index', :on => :member
+        get '/invoice_items', to: 'items/invoice_items#index', :on => :member
+        get 'most_items', to: 'items/most_items#index', :on => :collection
+        get ':id/best_day', to: 'items/best_day#show', :on => :collection
       end
 
       resources :invoice_items, only: [:index, :show] do
-        collection do
-          get 'find', to: 'invoice_items_search#show'
-          get 'find_all', to: 'invoice_items_search#index'
-          get 'random', to: 'invoice_items_random#show'
-        end
-        member do
-          get 'invoice', to: 'invoice_items_invoice#show'
-          get 'item', to: 'invoice_items_item#show'
-        end
+        get 'find', to: 'invoice_items/search#show', :on => :collection
+        get 'find_all', to: 'invoice_items/search#index', :on => :collection
+        get 'random', to: 'invoice_items/random#index', :on => :collection
+        get '/item', to: 'invoice_items/item#index', :on => :member
+        get '/invoice', to: 'invoice_items/invoice#index', :on => :member
       end
     end
   end

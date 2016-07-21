@@ -10,31 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160718220652) do
+ActiveRecord::Schema.define(version: 20160721024742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "citext"
 
   create_table "customers", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
+    t.citext   "first_name"
+    t.citext   "last_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "invoice_items", force: :cascade do |t|
     t.integer  "quantity"
-    t.decimal  "unit_price"
     t.integer  "item_id"
     t.integer  "invoice_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unit_price"
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id", using: :btree
     t.index ["item_id"], name: "index_invoice_items_on_item_id", using: :btree
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.string   "status"
+    t.citext   "status"
     t.integer  "customer_id"
     t.integer  "merchant_id"
     t.datetime "created_at"
@@ -44,17 +45,17 @@ ActiveRecord::Schema.define(version: 20160718220652) do
   end
 
   create_table "items", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.decimal  "unit_price"
+    t.citext   "name"
+    t.citext   "description"
     t.integer  "merchant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "unit_price"
     t.index ["merchant_id"], name: "index_items_on_merchant_id", using: :btree
   end
 
   create_table "merchants", force: :cascade do |t|
-    t.string   "name"
+    t.citext   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -62,7 +63,7 @@ ActiveRecord::Schema.define(version: 20160718220652) do
   create_table "transactions", force: :cascade do |t|
     t.string   "credit_card_number"
     t.string   "credit_card_expiration_date"
-    t.string   "result"
+    t.citext   "result"
     t.integer  "invoice_id"
     t.datetime "created_at"
     t.datetime "updated_at"

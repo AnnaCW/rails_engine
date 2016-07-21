@@ -1,6 +1,4 @@
 class Api::V1::CustomersController < ApiBaseController
-  respond_to :json, :xml
-
   def index
     respond_with Customer.all
   end
