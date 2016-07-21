@@ -116,6 +116,6 @@ describe "Merchants BI Endpoints" do
 
       parsed_result = JSON.parse(response.body)
 
-      expect(parsed_result["merchants"].count).to eq 3
+      expect(parsed_result.count).to eq 3
     end
 end
