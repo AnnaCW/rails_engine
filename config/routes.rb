@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :merchants, only: [:index, :show] do
-        resources :invoices, only: [:index]
-        resources :items, only: [:index]
 
         get 'find', to: 'merchants/search#show', :on => :collection
         get 'find_all', to: 'merchants/search#index', :on => :collection
@@ -13,13 +11,15 @@ Rails.application.routes.draw do
         get 'date', to: 'merchants/revenue_date#show', :on => :member
         get 'most_items', to: 'merchants/most_items#index', :on => :collection
         get 'most_revenue', to: 'merchants/most_revenue#index', :on => :collection
+        get '/invoices', to: 'merchants/invoices#index', :on => :member
+        get '/items', to: 'merchants/items#index', :on => :member
+
         get ':id/customers_with_pending_invoices', to: 'merchants/pending_invoices#index', :on => :collection
         get ':id/favorite_customer', to: 'merchants/favorite_customer#index', :on => :collection
       end
 
       resources :transactions, only: [:index, :show] do
         resources :invoices, only: [:index]
-
         get '/invoice', to: 'transactions/invoice#index', :on => :member
         get 'find', to: 'transactions/search#show', :on => :collection
         get 'find_all', to: 'transactions/search#index', :on => :collection
@@ -27,13 +27,13 @@ Rails.application.routes.draw do
       end
 
       resources :customers, only: [:index, :show] do
-        resources :invoices, only: [:index]
-        resources :transactions, only: [:index]
-
         get 'find', to: 'customers/search#show', :on => :collection
         get 'find_all', to: 'customers/search#index', :on => :collection
         get 'random', to: 'customers/random#index', :on => :collection
         get 'favorite_merchant', to: 'customers/favorite_merchant#show', :on => :member
+        get '/invoices', to: 'customers/invoices#index', :on => :member
+        get '/transactions', to: 'customers/transactions#index', :on => :member
+
       end
 
       resources :invoices, only: [:index, :show] do
