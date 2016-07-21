@@ -56,4 +56,19 @@ describe "Merchants BI Endpoints" do
       expect(parsed_customer["last_name"]).to eq favorite_customer.last_name
     end
 
+    it "returns total revenue for all merchants" do
+      merchant_1 = create(:merchant)
+      merchant_2 = create(:merchant)
+      create(:customer, :with_transactions, merchant_id: merchant_1.id)
+      create(:customer, :with_transactions, merchant_id: merchant_2.id)
+      result = Merchant.revenue_by_date("2012-03-27T14:53:59.000Z")
+
+      get "/api/v1/merchants/revenue?date=2012-03-27T14:53:59.000Z"
+
+      expect(response).to be_success
+
+      parsed_result = JSON.parse(response.body)
+
+      expect(parsed_result["revenue"]).to eq result
+    end
 end
