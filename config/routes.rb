@@ -8,9 +8,13 @@ Rails.application.routes.draw do
         get 'find', to: 'merchants/search#show', :on => :collection
         get 'find_all', to: 'merchants/search#index', :on => :collection
         get 'random', to: 'merchants/random#index', :on => :collection
-        get 'revenue', to: 'merchants/revenue#show', :on => :member
+        get ':id/revenue', to: 'merchants/revenue#show', :on => :collection
+        get 'revenue', to: 'merchants/revenue#index', :on => :collection
         get 'date', to: 'merchants/revenue_date#show', :on => :member
         get 'most_items', to: 'merchants/most_items#index', :on => :collection
+        get 'most_revenue', to: 'merchants/most_revenue#index', :on => :collection
+        get ':id/customers_with_pending_invoices', to: 'merchants/pending_invoices#index', :on => :collection
+        get ':id/favorite_customer', to: 'merchants/favorite_customer#index', :on => :collection
       end
 
       resources :transactions, only: [:index, :show] do

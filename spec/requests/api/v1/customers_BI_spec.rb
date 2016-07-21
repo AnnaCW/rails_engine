@@ -8,6 +8,5 @@ describe "Customers BI Endpoints" do
     get "/api/v1/customers/#{customer.id}/favorite_merchant"
 
     expect(response).to be_success
-  
   end
 end
