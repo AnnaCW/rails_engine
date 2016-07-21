@@ -6,7 +6,11 @@ class Merchant < ActiveRecord::Base
   has_many :invoice_items, through: :invoices
 
   def customers_with_pending_invoices
-    customers.where(invoices: {status: "pending"})
+    Customer.joins(merchants: :invoices)
+            .where(merchants: {id: self.id})
+            .merge(Invoice.joins(:transactions)
+            .where(transactions: { result: 'failed' }))
+            .distinct
   end
 
   def favorite_customer

@@ -51,9 +51,12 @@ describe "Merchants BI Endpoints" do
 
     it "returns a merchant's customers with pending invoices" do
       merchant = create(:merchant)
-      customer = create(:customer)
-      create_list(:invoice, 3, customer: customer, merchant: merchant,
-                  status: "pending")
+      customer_1 = create(:customer)
+      customer_2 = create(:customer)
+      invoice_1 = create(:invoice, customer: customer_1, merchant: merchant)
+      invoice_2 = create(:invoice, customer: customer_2, merchant: merchant)
+      invoice_1.transactions << create(:transaction, result: "failed")
+      invoice_2.transactions << create(:transaction, result: "failed")
 
       get "/api/v1/merchants/#{merchant.id}/customers_with_pending_invoices"
 
@@ -61,7 +64,7 @@ describe "Merchants BI Endpoints" do
 
       parsed_customers = JSON.parse(response.body)
 
-      expect(parsed_customers.count).to eq 3
+      expect(parsed_customers.count).to eq 2
     end
 
     it "returns a merchant's favorite customer" do

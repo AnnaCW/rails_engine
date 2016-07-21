@@ -6,14 +6,16 @@ RSpec.describe Merchant, type: :model do
 
   it "Finds customers with pending invoices" do
     merchant = create(:merchant)
-    customer = create(:customer)
-    create_list(:invoice, 3, customer: customer, merchant: merchant,
-                status: "pending")
+    customer_1 = create(:customer)
+    customer_2 = create(:customer)
+    invoice_1 = create(:invoice, customer: customer_1, merchant: merchant)
+    invoice_2 = create(:invoice, customer: customer_2, merchant: merchant)
+    invoice_1.transactions << create(:transaction, result: "failed")
+    invoice_2.transactions << create(:transaction, result: "failed")
 
     result = merchant.customers_with_pending_invoices
 
-    expect(result.count).to eq 3
-    expect(result[0].invoices[0].status).to eq "pending"
+    expect(result.count).to eq 2
   end
 
   it "Finds the favorite customer" do
