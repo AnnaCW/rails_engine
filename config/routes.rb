@@ -37,8 +37,6 @@ Rails.application.routes.draw do
       end
 
       resources :invoices, only: [:index, :show] do
-        resources :items, only: [:index]
-        resources :transactions, only: [:index]
         resources :merchants, only: [:index]
 
         get 'find', to: 'invoices/search#show', :on => :collection
@@ -47,6 +45,8 @@ Rails.application.routes.draw do
         get '/customer', to: 'invoices/customer#index', :on => :member
         get '/merchant', to: 'invoices/merchant#index', :on => :member
         get '/invoice_items', to: 'invoices/invoice_items#index', :on => :member
+        get '/transactions', to: 'invoices/transactions#index', :on => :member
+        get '/items', to: 'invoices/items#index', :on => :member
 
       end
 
