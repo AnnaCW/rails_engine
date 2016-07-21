@@ -27,4 +27,16 @@ class Merchant < ActiveRecord::Base
             .order('sum(quantity * unit_price) desc')
             .limit(num_results)
   end
+
+  def self.most_items(num)
+    Merchant.joins(:invoice_items).group('merchants.id').order('sum(invoice_items.quantity) desc').limit(num)
+  end
+
+  def revenue
+    invoices.joins(:invoice_items).sum('quantity * unit_price')
+  end
+
+  def revenue_by_date(invoice_date)
+    invoices.joins(:invoice_items).where(created_at: invoice_date).sum('quantity * unit_price')
+  end
 end
