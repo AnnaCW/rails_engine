@@ -4,6 +4,7 @@ describe "Merchants BI Endpoints" do
   it "returns total revenue for merchant" do
     merchant = create(:merchant)
     invoice = create(:invoice, merchant: merchant)
+    invoice.transactions << create(:transaction)
     create(:invoice_item, invoice: invoice, quantity: 2, unit_price: 3)
 
 
@@ -19,6 +20,7 @@ describe "Merchants BI Endpoints" do
     it "returns revenue for merchant for given date" do
       merchant = create(:merchant)
       invoice = create(:invoice, merchant: merchant, created_at: "2015-03-27T14:53:59.000Z")
+      invoice.transactions << create(:transaction)
       create(:invoice_item, invoice: invoice, quantity: 2, unit_price: 3)
 
       get "/api/v1/merchants/#{merchant.id}/revenue?date=2015-03-27T14:53:59.000Z"
@@ -96,7 +98,7 @@ describe "Merchants BI Endpoints" do
 
       parsed_result = JSON.parse(response.body)
 
-      expect(parsed_result["revenue"]).to eq "100.00"
+      expect(parsed_result["total_revenue"]).to eq "100.00"
     end
 
     it "returns x merchants ranked by revenue" do

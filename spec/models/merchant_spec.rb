@@ -57,6 +57,8 @@ RSpec.describe Merchant, type: :model do
   it "returns total revenue for merchant" do
     merchant = create(:merchant)
     invoice_1, invoice_2 = create_list(:invoice, 2, merchant: merchant)
+    invoice_1.transactions << create(:transaction)
+    invoice_2.transactions << create(:transaction)
     invoice_item_1 = create(:invoice_item, invoice: invoice_1, quantity: 2, unit_price: 3)
     invoice_item_2 = create(:invoice_item, invoice: invoice_2, quantity: 1, unit_price: 2)
 
@@ -70,6 +72,8 @@ RSpec.describe Merchant, type: :model do
   it "returns revenue for merchant for given date" do
     merchant = create(:merchant)
     invoice_1, invoice_2 = create_list(:invoice, 2, merchant: merchant, created_at: "2012-03-27T14:53:59.000Z")
+    invoice_1.transactions << create(:transaction)
+    invoice_2.transactions << create(:transaction)
     invoice_item_1 = create(:invoice_item, invoice: invoice_1, quantity: 2, unit_price: 3)
     invoice_item_2 = create(:invoice_item, invoice: invoice_2, quantity: 1, unit_price: 2)
     invoice_3 = create(:invoice, merchant: merchant, created_at: "2015-03-27T14:53:59.000Z")
