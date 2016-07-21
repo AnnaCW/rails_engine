@@ -8,6 +8,9 @@ describe "Customers BI Endpoints" do
     get "/api/v1/customers/#{customer.id}/favorite_merchant"
 
     expect(response).to be_success
-  
+
+    parsed_response = JSON.parse(response.body)
+
+    expect(parsed_response["name"]).to eq("Bob")
   end
 end
