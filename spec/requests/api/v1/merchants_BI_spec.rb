@@ -13,7 +13,7 @@ describe "Merchants BI Endpoints" do
 
     parsed_response = JSON.parse(response.body)
 
-    expect(parsed_response["revenue"]).to eq(6)
+    expect(parsed_response["revenue"]).to eq("00.06")
   end
 
     it "returns revenue for merchant for given date" do
@@ -27,7 +27,7 @@ describe "Merchants BI Endpoints" do
 
        parsed_response = JSON.parse(response.body)
 
-       expect(parsed_response["revenue"]).to eq(6)
+       expect(parsed_response["revenue"]).to eq("00.06")
     end
 
     it "returns x merchants ranked by items sold" do
@@ -93,7 +93,7 @@ describe "Merchants BI Endpoints" do
 
       parsed_result = JSON.parse(response.body)
 
-      expect(parsed_result["revenue"]).to eq result
+      expect(parsed_result["revenue"]).to eq "100.00"
     end
 
     it "returns x merchants ranked by revenue" do
