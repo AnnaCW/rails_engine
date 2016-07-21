@@ -24,5 +24,20 @@ describe "Merchants BI Endpoints" do
       expect(response).to be_success
 
     end
-    
+
+    it "returns customers with pending invoices" do
+      merchant = create(:merchant)
+      customer = create(:customer)
+      create_list(:invoice, 3, customer: customer, merchant: merchant,
+                  status: "pending")
+
+      get "/api/v1/merchants/#{merchant.id}/customers_with_pending_invoices"
+
+      expect(response).to be_success
+
+      parsed_customers = JSON.parse(response.body)
+
+      expect(parsed_customers.count).to eq 3
+    end
+
 end
