@@ -31,14 +31,20 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(num)
-    Merchant.joins(:invoice_items).group('merchants.id').order('sum(invoice_items.quantity) desc').limit(num)
+    Merchant.joins(:invoice_items).group('merchants.id')
+            .order('sum(invoice_items.quantity) desc')
+            .limit(num)
   end
 
   def revenue
-    invoices.joins(:transactions, :invoice_items).where(transactions: {result: "success"}).sum('quantity * unit_price')
+    invoices.joins(:transactions, :invoice_items)
+            .where(transactions: {result: "success"})
+            .sum('quantity * unit_price')
   end
 
   def revenue_by_date(invoice_date)
-    invoices.joins(:transactions, :invoice_items).where(created_at: invoice_date, transactions: {result: "success"}).sum('quantity * unit_price')
+    invoices.joins(:transactions, :invoice_items)
+            .where(created_at: invoice_date, transactions: {result: "success"})
+            .sum('quantity * unit_price')
   end
 end
