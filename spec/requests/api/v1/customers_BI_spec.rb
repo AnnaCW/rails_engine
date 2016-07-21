@@ -12,5 +12,6 @@ describe "Customers BI Endpoints" do
     parsed_response = JSON.parse(response.body)
 
     expect(parsed_response["name"]).to eq("Bob")
+
   end
 end
