@@ -2,14 +2,16 @@ class InvoiceItemSerializer < ActiveModel::Serializer
   attributes :id, :quantity, :unit_price, :invoice_id, :item_id
 
   def unit_price
-    final_string = object.unit_price.to_s
+    formatted_price = format_price(object.unit_price.to_s)
+    formatted_price.insert(-3, ".")
+  end
 
-    if final_string.length == 3
-      final_string += "0"
-    elsif final_string == 2
-      final_string += "00"
+  def format_price(string)
+    if string.length == 2
+      string = "00" + string
+    elsif string.length == 1
+      string = "000" + string
     end
-
-    final_string
+    string
   end
 end
