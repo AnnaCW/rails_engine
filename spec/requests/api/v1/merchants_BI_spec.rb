@@ -71,4 +71,27 @@ describe "Merchants BI Endpoints" do
 
       expect(parsed_result["revenue"]).to eq result
     end
+
+    it "returns x merchants ranked by revenue" do
+      merchant_1, merchant_2, merchant_3 = create_list(:merchant, 3)
+      invoice_1 = create(:invoice, merchant: merchant_1)
+      invoice_2 = create(:invoice, merchant: merchant_2)
+      invoice_3 = create(:invoice, merchant: merchant_3)
+      item_1a = create(:item, merchant: merchant_1)
+      item_1b = create(:item, merchant: merchant_1)
+      item_2 = create(:item, merchant: merchant_2)
+      item_3 = create(:item, merchant: merchant_3)
+      invoice_item_1a = create(:invoice_item, invoice: invoice_1, item: item_1a, quantity: 3)
+      invoice_item_1b = create(:invoice_item, invoice: invoice_1, item: item_1b, quantity: 4)
+      invoice_item_2 = create(:invoice_item, invoice: invoice_2, item: item_2, quantity: 1)
+      invoice_item_3 = create(:invoice_item, invoice: invoice_3, item: item_3, quantity: 8)
+
+      get "/api/v1/merchants/most_revenue?quantity=3"
+
+      expect(response).to be_success
+
+      parsed_result = JSON.parse(response.body)
+
+      expect(parsed_result["merchants"].count).to eq 3
+    end
 end
