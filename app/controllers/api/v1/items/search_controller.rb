@@ -6,7 +6,11 @@ class Api::V1::Items::SearchController < ApiBaseController
   end
 
   def show
-    respond_with Item.where(item_params).first
+    if params[:unit_price]
+      respond_with Item.where(unit_price: (params[:unit_price].to_f * 100).round).first
+    else
+      respond_with Item.where(item_params).first
+    end
   end
 
 private
