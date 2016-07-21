@@ -29,10 +29,12 @@ RSpec.describe Merchant, type: :model do
   end
 
   it "Finds the total revenue" do
-    merchant = create(:merchant)
-    customer = create(:customer, :with_transactions, merchant_id: merchant.id)
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+    create(:customer, :with_transactions, merchant_id: merchant_1.id)
+    create(:customer, :with_transactions, merchant_id: merchant_2.id)
     result = Merchant.revenue_by_date("2012-03-27T14:53:59.000Z")
 
-    expect(result).to eq 5000
+    expect(result).to eq 10000
   end
 end
