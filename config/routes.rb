@@ -8,6 +8,9 @@ Rails.application.routes.draw do
         get 'find', to: 'merchants/search#show', :on => :collection
         get 'find_all', to: 'merchants/search#index', :on => :collection
         get 'random', to: 'merchants/random#index', :on => :collection
+        get 'revenue', to: 'merchants/revenue#show', :on => :member
+        get 'date', to: 'merchants/revenue_date#show', :on => :member
+        get 'most_items', to: 'merchants/most_items#index', :on => :collection
       end
 
       resources :transactions, only: [:index, :show] do
@@ -26,6 +29,7 @@ Rails.application.routes.draw do
         get 'find', to: 'customers/search#show', :on => :collection
         get 'find_all', to: 'customers/search#index', :on => :collection
         get 'random', to: 'customers/random#index', :on => :collection
+        get 'favorite_merchant', to: 'customers/favorite_merchant#show', :on => :member
       end
 
       resources :invoices, only: [:index, :show] do
@@ -48,6 +52,8 @@ Rails.application.routes.draw do
         get 'random', to: 'items/random#index', :on => :collection
         get '/merchant', to: 'items/merchant#index', :on => :member
         get '/invoice_items', to: 'items/invoice_items#index', :on => :member
+        get 'most_items', to: 'items/most_items#index', :on => :collection
+        get 'best_day', to: 'items/best_day#show', :on => :member
       end
 
       resources :invoice_items, only: [:index, :show] do
